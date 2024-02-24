@@ -1,69 +1,76 @@
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { Button, Text } from "react-native-paper";
+import { StyleSheet, View, Image} from 'react-native';
+import { Button, Text, TextInput, Card  } from "react-native-paper";
+import { } from 'react-native-paper';
 
 
 export default function App() {
-  const [counter, setCounter] = useState(0);
-  const onIncrementarClick = () => {
-    setCounter(counter + 1);
+  const [lembrete, setLembrete] = useState([]);
+  const [titulo, setTitulo] = useState([""]);
+  const [info, setInfo] = useState([""]);
+  const [lembretes, setLembretes] = useState([]);
+ 
+  function adicionarNovoLembrete() {
+    console.log(lembrete)
+    const novoLembrete = {
+      titulo: titulo,
+      info: info
+    };
+    setLembretes([...lembretes, novoLembrete]);
+    setLembrete("");
+    setTitulo("");
+    setInfo("");
   }
-  const onResetarClick = () => {
-    setCounter(0);
-  }
-  const onDecrementarClick = () => {
-    setCounter(counter - 1);
-  }
+
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.counter_display}>{counter}</Text>
-    //   <Button
-    //     style={styles.button_incrementar}
-    //     onPress={onIncrementarClick}
-    //     title="Incrementar"
-    //   ></Button>
+    <View>
+      <View style={{ alignItems: 'center' }}>
+        <Image
+          source={{
+            uri: 'https://static.vecteezy.com/system/resources/previews/011/125/359/original/cute-alarm-clock-icon-png.png'
+          }}
+          style={{ width: 200, height: 200 }}
+        />
+        <Text style={{ fontSize: 60, color: "#f69687", fontWeight: 'bold' }}>LEMBRETES</Text>
+      </View>
 
-    //   <Button
-    //     style={styles.button_incrementar}
-    //     onPress={onResetarClick}
-    //     title="Resetar"
-    //   ></Button>
-      
-    //   <Button
-    //     style={styles.button_incrementar}
-    //     onPress={onDecrementarClick}
-    //     title="Decrementar"
-    //   ></Button>
-    // </View>
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 3, margin: 6 }}>
+            <TextInput
+              mode="outlined"
+              label="Lembrete"
+              value={titulo}
+              onChange={value => setTitulo(value.target.value)}
+            />
+          </View>
+          <View style={{ flex: 3, margin: 6 }}>
+            <TextInput
+              mode="outlined"
+              label="Data"
+              value={info}
+              onChange={value => setInfo(value.target.value)}
+            />
+          </View>
+        </View>
 
-    <SafeAreaView style={styles.container}>
-      <Text variant="displayLarge" style={styles.counter_display}>
-        {counter}
-      </Text>
-      <Text variant="bodyLarge" style={styles.body_display}>
-        Pressione o botão abaixo para incrementar o contador.
-      </Text>
-      <Button onPress={onIncrementarClick} icon="plus" mode="contained">
-        Incrementar
-      </Button>
-    </SafeAreaView>
-
+        <View style={{ flex: 1, marginTop: 30 }}>
+          <Button mode="contained" onPress={adicionarNovoLembrete} style={{ backgroundColor: '#85d5f5', fontWeight: 'bold' }}>
+            Adicionar lembrete
+          </Button>
+        </View>
+      </View>
+      <View>
+        {lembretes.map((lembrete, index) => (
+          <Card>
+            <Card.Content>
+              <Text variant="titleLarge">{lembrete.titulo}</Text>
+              <Text variant="bodyMedium">{lembrete.info}</Text>
+            </Card.Content>
+          </Card>
+        ))}
+      </View>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    fontFamily: 'Cochin',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button_incrementar: {
-    backgroundColor: '#329da8',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
